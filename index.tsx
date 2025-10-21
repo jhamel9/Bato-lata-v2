@@ -1,3 +1,4 @@
+
 import { Can, CAN_TARGET_X, CAN_TARGET_Z } from './can.js';
 
 declare const THREE: any;
@@ -438,24 +439,36 @@ function init() {
     controls.getObject().rotation.y = Math.PI; 
     
     const instructions = document.getElementById('instructions');
-    
-    instructions.addEventListener('click', () => {
-        controls.lock(); 
-    });
 
     playAgainButton.addEventListener('click', restartGame);
+    
+    if ('requestPointerLock' in document.body) {
+        instructions.addEventListener('click', () => {
+            controls.lock(); 
+        });
 
-    controls.addEventListener('lock', () => {
-        (instructions as HTMLElement).style.opacity = '0';
-        (instructions as HTMLElement).style.pointerEvents = 'none';
-    });
+        controls.addEventListener('lock', () => {
+            (instructions as HTMLElement).style.opacity = '0';
+            (instructions as HTMLElement).style.pointerEvents = 'none';
+        });
 
-    controls.addEventListener('unlock', () => {
-        if (!isGameOver) {
-            (instructions as HTMLElement).style.opacity = '1';
-            (instructions as HTMLElement).style.pointerEvents = 'auto';
+        controls.addEventListener('unlock', () => {
+            if (!isGameOver) {
+                (instructions as HTMLElement).style.opacity = '1';
+                (instructions as HTMLElement).style.pointerEvents = 'auto';
+            }
+        });
+    } else {
+        const container = instructions.querySelector('.container');
+        if (container) {
+            container.innerHTML = `
+                <h1 class="text-3xl font-bold mb-4 text-red-500">Browser Not Supported</h1>
+                <p class="text-lg">This game requires the Pointer Lock API, which is not available in your browser.</p>
+                <p class="mt-4">Please try a different browser, like a recent version of Chrome, Firefox, or Edge.</p>
+            `;
         }
-    });
+    }
+
     scene.add(controls.getObject());
 
     // --- CANNON.js Setup ---
@@ -666,7 +679,7 @@ function init() {
     canJump = true;
 
     // --- Renderer Setup ---
-    renderer = new THREE.WebGLRenderer({ antalias: true });
+    renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
