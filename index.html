@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tumbang Preso (Bato Lata) Simulator v1.4 (Voxel Slipper)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="index.css">
+    <!-- Load three.js, PointerLockControls, and CANNON.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r128/examples/js/controls/PointerLockControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js"></script>
+</head>
+<body>
+
+    <div id="instructions">
+        <div class="container">
+            <h1 class="text-3xl font-bold mb-4">Tumbang Preso Simulator!</h1>
+            <h2 class="text-xl font-semibold mb-4 text-green-400">Target (Preso) is at Z=120. Throw behind the red line (Z &lt; -100)!</h2>
+            <p class="mb-6 text-lg">Move with <span class="key">W A S D</span>, Jump with <span class="key">SPACE</span>.</p>
+            <div class="text-xl mb-6 font-bold text-yellow-400">
+                <span class="key">HOLD Left Click</span> to Aim, <span class="key">RELEASE</span> to Throw!
+            </div>
+            <p class="text-sm text-gray-400 font-bold">THROWING FAULT: You MUST be behind the red line (Z &lt; -100) to throw! This line is 220 units behind the target.</p>
+            <p class="text-sm text-green-400 mt-4">Walk near the slipper and <span class="key">LEFT CLICK</span> to pick it up.</p>
+            <p class="text-sm text-yellow-400 mt-2">**SCORING RULE:** After knocking the can over, pick up the slipper and return behind the red line to score a point and reset the can.</p>
+        </div>
+    </div>
+    
+    <!-- Score Display -->
+    <div id="score-display" class="ui-score text-lg fixed top-5 left-5 bg-blue-700">Score: 0</div>
+    
+    <!-- Throwing Zone Status -->
+    <div id="status-zone" class="ui-score text-lg fixed top-5 right-20 bg-gray-500">Zone: Initializing...</div>
+
+    <!-- Timer Display -->
+    <div id="timer-display" class="ui-timer text-2xl fixed top-5 left-1/2 -translate-x-1/2 bg-gray-800">Time: 15.0</div>
+
+    <!-- Game Over Screen -->
+    <div id="game-over-screen" style="display: none;">
+        <div class="container">
+            <h1 class="text-5xl font-bold mb-4 text-red-500">Game Over</h1>
+            <h2 id="final-score" class="text-3xl font-semibold mb-8 text-yellow-400">Final Score: 0</h2>
+            <button id="play-again-button" class="play-again-btn">Play Again</button>
+        </div>
+    </div>
+    
+    <!-- Crosshair for aiming -->
+    <div id="crosshair"></div>
+    
+    <script type="module" src="index.tsx"></script>
+</body>
+</html>
